@@ -1,0 +1,5 @@
+local-volumes/gitlab/*
+!local-volumes/gitlab/.gitkeep
+local-volumes/gitlab-runner/*
+!local-volumes/gitlab-runner/.gitkeep
+.env.runner

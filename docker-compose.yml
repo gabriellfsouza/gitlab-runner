@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:16.9.1-ce.0
+    container_name: gitlab-container
+    hostname: gitlab
+    ports:
+      # - 443:443
+      - 80:80
+      - 22:22
+    restart: always
+    volumes:
+      - ./local-volumes/gitlab/config:/etc/gitlab
+      - ./local-volumes/gitlab/logs:/var/log/gitlab
+      - ./local-volumes/gitlab/data:/var/opt/gitlab
+    networks:
+      - gitlab-net
+
+networks:
+  gitlab-net:
+    name: gitlab-net

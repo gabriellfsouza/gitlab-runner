@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner:ubuntu-bleeding
+    container_name: 'gitlab-runner'
+    entrypoint: []
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./local-volumes/gitlab-runner/config:/etc/gitlab-runner
+      - ./runner-start.sh:/home/gitlab-runner/runner-start.sh
+    command: "/bin/bash /home/gitlab-runner/runner-start.sh"
+    env_file:
+      - .env.runner
+    networks:
+      - gitlab-net
+
+networks:
+  gitlab-net:
+    name: gitlab-net
