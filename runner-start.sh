@@ -13,6 +13,7 @@ gitlab-runner register \
   --tag-list "docker,linux,alpine,general" \
   --run-untagged="true" \
   --locked="false" \
+  --docker-privileged \
   --docker-network-mode=$GITLAB_NETWORK
 fi
 

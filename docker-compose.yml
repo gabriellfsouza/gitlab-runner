@@ -5,15 +5,30 @@ services:
     image: gitlab/gitlab-ce:16.9.1-ce.0
     container_name: gitlab-container
     hostname: gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab'
+        registry_external_url 'http://gitlab:5050'
+        registry['enable'] = true
+        registry_nginx['listen_port'] = 5050
+        registry['env'] = {
+          "REGISTRY_HTTP_RELATIVEURLS" => true
+        }
+        # Configure GitLab to use the embedded Container Registry.
+        # Note: You might need to adjust the domain names and URLs based on your actual domain and desired setup.
+        # You can also add other GitLab configuration options here as needed.
+        # https://docs.gitlab.com/ee/administration/packages/container_registry.html
     ports:
       # - 443:443
       - 80:80
       - 22:22
+      - 5050:5050
     restart: always
     volumes:
       - ./local-volumes/gitlab/config:/etc/gitlab
       - ./local-volumes/gitlab/logs:/var/log/gitlab
       - ./local-volumes/gitlab/data:/var/opt/gitlab
+      - ./local-volumes/gitlab/registry:/var/opt/gitlab/gitlab-rails/shared/registry
     networks:
       - gitlab-net
 
